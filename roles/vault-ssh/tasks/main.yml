@@ -1,0 +1,15 @@
+---
+- name: download the ca client file
+  get_url:
+    url: https://vaults.linkmobility.com/v1/ssh/public_key
+    dest: /etc/ssh/trusted-user-ca-keys.pem
+    mode: '0440'
+  notify:
+    - restart ssh
+
+- name: make sure CA is registered with ssh
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    line: TrustedUserCAKeys /etc/ssh/trusted-user-ca-keys.pem
+  notify:
+    - restart ssh

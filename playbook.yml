@@ -1,0 +1,26 @@
+---
+- name: install vault on nodes
+  hosts: all
+  tasks:
+    - name: assign inventory name to unconfigured hostnames
+      hostname:
+        name: "{{ inventory_hostname }}"
+
+    - name: install dependencies
+      include_tasks: tasks/install.yml
+
+    - name: install vault
+      include_tasks: tasks/vault.yml
+
+    - name: make the SSH setup
+      include_role:
+        name: vault-ssh
+
+  handlers:
+    - name: restart vault
+      service:
+        name: vault
+        state: restarted
+
+    - name: disable swap
+      shell: swapoff -a

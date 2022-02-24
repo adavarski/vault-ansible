@@ -1,0 +1,17 @@
+---
+- name: add vault apt key
+  apt_key:
+    url: https://apt.releases.hashicorp.com/gpg
+    state: present
+
+- name: add vault repository
+  apt_repository:
+    repo: "deb [arch=amd64] https://apt.releases.hashicorp.com {{ ansible_distribution_release  }} main"
+    state: present
+
+- name: install vault
+  apt:
+    pkg:
+      - vault
+    update_cache: yes
+  

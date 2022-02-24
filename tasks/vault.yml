@@ -1,0 +1,49 @@
+---
+- name: upload certificates
+  copy:
+    src: files/{{ item }}
+    dest: /etc/vault.d/
+    owner: vault
+    mode: 0644
+  loop:
+    - server.crt
+    - server.key
+  notify:
+    - restart vault
+
+- name: upload configuration
+  template:
+    src: templates/vault.hcl
+    dest: /etc/vault.d/
+    owner: vault
+    mode: 0644
+  notify:
+    - restart vault
+
+- name: ensure vault can connect port 443
+  copy:
+    src: files/vault.systemd.cfg
+    dest: /lib/systemd/system/vault.service
+    owner: vault
+    mode: 0644
+
+- name: ensure vault can connect port 443
+  capabilities:
+    path: /usr/bin/vault
+    capability: CAP_NET_BIND_SERVICE=+eip
+    state: present
+
+- name: make sure vault is enabled to start on boot and running
+  systemd:
+    state: started
+    daemon_reload: yes
+    name: vault
+
+- name: disable SWAP in fstab (2/2)
+  replace:
+    path: /etc/fstab
+    regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
+    replace: '# \1'
+  notify:
+    - disable swap
+    
