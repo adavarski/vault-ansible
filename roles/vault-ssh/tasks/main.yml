@@ -1,7 +1,7 @@
 ---
 - name: download the ca client file
   get_url:
-    url: https://vaults.linkmobility.com/v1/ssh/public_key
+    url: https://vaults.link.com/v1/ssh/public_key
     dest: /etc/ssh/trusted-user-ca-keys.pem
     mode: '0440'
   notify:
