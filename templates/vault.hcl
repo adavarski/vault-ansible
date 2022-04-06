@@ -3,15 +3,15 @@ storage "raft" {
     node_id = "{{ inventory_hostname }}"
 
     retry_join {
-        leader_api_addr = "https://vault-1.linkmobility.com"
+        leader_api_addr = "https://vault-1.link.com"
     }
 
     retry_join {
-        leader_api_addr = "https://vault-2.linkmobility.com"
+        leader_api_addr = "https://vault-2.link.com"
     }
 
     retry_join {
-        leader_api_addr = "https://vault-3.linkmobility.com"
+        leader_api_addr = "https://vault-3.link.com"
     }
 }
 
@@ -28,7 +28,7 @@ telemetry {
 }
 
 disable_mlock = true
-cluster_name = "gostudent-vault"
-api_addr = "https://{{ inventory_hostname }}.linkmobility.com"
-cluster_addr = "https://{{ inventory_hostname }}.linkmobility.com:8201"
+cluster_name = "link-vault"
+api_addr = "https://{{ inventory_hostname }}.link.com"
+cluster_addr = "https://{{ inventory_hostname }}.link.com:8201"
 ui = true
